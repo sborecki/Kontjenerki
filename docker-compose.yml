@@ -1,0 +1,40 @@
+version: "3.5"
+networks:
+  myszojelen-network:
+    driver: bridge
+  util-network:
+    driver: bridge
+services:
+  myszojelen-app:
+    container_name: myszojelen-app
+    restart: always
+    build: ./frontend #todo: make a front to be dependant on a core, not vice-versa
+    networks:
+      - myszojelen-network
+    ports:
+      - "0.0.0.0:8080:8080"
+    links:
+      - db_postgres
+  db_postgres:
+    container_name: db_postgres
+    restart: always
+    build: ./db_postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data
+    networks:
+      - myszojelen-network
+      - util-network
+    expose:
+      - "5432"
+  db_adminer:
+    image: "adminer"
+    restart: always
+    networks:
+      - util-network
+    ports:
+      - "0.0.0.0:8100:8080"
+    links:
+      - db_postgres
+volumes:
+  database-data:
+    driver: local
