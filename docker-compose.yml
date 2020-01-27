@@ -8,7 +8,7 @@ services:
   myszojelen-app:
     container_name: myszojelen-app
     restart: always
-    build: ./frontend #todo: make a front to be dependant on a core, not vice-versa
+    build: ./core
     networks:
       - myszojelen-network
     ports:
