@@ -16,9 +16,9 @@ RUN mvn -f ${SRC_FOLDER}/pom.xml clean package
 # Package stage
 #
 FROM openjdk:8-jdk-alpine
-ARG BUILD_FOLDER=/usr/local/lib
+ARG BUILD_FOLDER=/tmp/lib
 ARG SRC_FOLDER=/tmp/src
-COPY --from=build ${SRC_FOLDER}/core/target/*.jar ${BUILD_FOLDER}/app.jar
 WORKDIR ${BUILD_FOLDER}
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=dev", "/app.jar"]
+COPY --from=build ${SRC_FOLDER}/core/target/*.jar app.jar
+ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=dev", "app.jar"]
 #,"-Djava.security.egd=file:/dev/./urandom"
