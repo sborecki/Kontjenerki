@@ -8,7 +8,9 @@ services:
   myszojelen-app:
     container_name: myszojelen-app
     restart: always
-    build: ./core
+    build: ./app-myszojelen
+    volumes:
+      - maven-repo:/root/.m2 #$MAVEN_CONFIG
     networks:
       - myszojelen-network
     ports:
@@ -37,4 +39,6 @@ services:
       - db_postgres
 volumes:
   database-data:
+    driver: local
+  maven-repo:
     driver: local
